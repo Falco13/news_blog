@@ -1,5 +1,9 @@
 @extends('layout')
 
+@section('title')
+Home Page
+@endsection
+
 @section('content')
 <br>
 <div class="container-fluid">
@@ -18,7 +22,7 @@
                 <div class="card_header"><h4>{{ $post->title }}</h4></div>
                 <div class="card_body">
                     <div class="card-img" style="background-image: url({{ $post->img ?? asset('img/news-image.jpg') }})"></div>
-                    <div class="card-author">{{ $post->user->name }}</div>
+                    <div class="card-author">Author: {{ $post->user->name }}</div>
                     <a href="" class="btn btn-warning">Post detail...</a>
                 </div>
             </div>

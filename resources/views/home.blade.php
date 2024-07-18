@@ -15,8 +15,12 @@
         @foreach ($posts as $post)
         <div class="col-6">
             <div class="card">
-                <div class="card_header">{{ $post->title }}</div>
-                <div class="card_body">{{ $post->description }}</div>
+                <div class="card_header"><h4>{{ $post->title }}</h4></div>
+                <div class="card_body">
+                    <div class="card-img" style="background-image: url({{ $post->img ?? asset('img/news-image.jpg') }})"></div>
+                    <div class="card-author">{{ $post->user->name }}</div>
+                    <a href="" class="btn btn-warning">Post detail...</a>
+                </div>
             </div>
         </div>
         @endforeach

@@ -14,7 +14,7 @@ class PostController extends Controller
     public function index()
     {
         Paginator::useBootstrap();
-        $posts = Post::orderBy('created_at')->paginate(8);
+        $posts = Post::orderBy('created_at')->with('user')->paginate(8);
         return view('home', compact('posts'));
     }
 

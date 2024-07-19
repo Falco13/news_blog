@@ -15,7 +15,7 @@ class PostController extends Controller
     {
         Paginator::useBootstrap();
         $search_is = $request->search;
-        if (!empty($search_is)) {
+        if ($search_is !== null && trim($search_is) !== '') {
             $posts = Post::with('user')
                          ->where('title', 'LIKE', "%$search_is%")
                          ->orWhere('description', 'LIKE', "%$search_is%")
@@ -23,6 +23,7 @@ class PostController extends Controller
                          ->orderBy('created_at')
                          ->paginate(8);
         } else {
+            // $posts = Post::query()->whereRaw('false');
             $posts = Post::orderBy('created_at')->with('user')->paginate(8);
         }
 

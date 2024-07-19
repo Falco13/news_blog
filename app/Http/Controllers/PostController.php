@@ -11,9 +11,18 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         Paginator::useBootstrap();
+        $search_is = $request->search;
+        if($search_is) {
+            $posts = Post::with('user')->where('title', 'LIKE', "%$search_is%")
+                                       ->orWhere('description', 'LIKE', "%$search_is%")
+                                       ->orWhereHas('user', function ($query) use ($search_is) {
+                                        $query->where('name', 'LIKE', "%$search_is%");})
+                                       ->orderBy('created_at')->paginate(8);
+            return view('home', compact('posts'));
+        }
         $posts = Post::orderBy('created_at')->with('user')->paginate(8);
         return view('home', compact('posts'));
     }

@@ -34,8 +34,8 @@ Home Page
                 <div class="card-img" style="background-image: url({{ $post->img ?? asset('img/news-image.jpg') }})"></div>
                 <h5 class="card-title">{{ $post->short_title }}</h5>
                 <p class="card-text">{{ $post->description }}</p>
-                <div class="alert alert-dark" role="alert">Author: <strong>{{ $post->user->name }}</strong> | Publication date: <i>{{ $post->created_at }}</i></div>
-                <a href="#" class="btn btn-warning">Read...</a>
+                <div class="alert alert-dark" role="alert">Author: <strong>{{ $post->user->name }}</strong> | Publication date: <i>{{ $post->created_at->diffForHumans() }}</i></div>
+                <a href="{{ route('show', ['id'=>$post->id]) }}" class="btn btn-warning">Read...</a>
             </div>
         </div>
     </div>

@@ -59,15 +59,14 @@ class PostController extends Controller
         $post->author_id = rand(1, 10); // for test
         $post->save();
         return redirect()->route('home')->with('success', 'Your post has been successfully created');
-
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
+    public function show(string $id) {
+        $post = Post::find($id);
+        return view('show', compact('post'));
     }
 
     /**

@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
-                <a class="nav-link" href="">Create Post</a>
+                <a class="nav-link" href="{{ route('create') }}">Create Post</a>
             </div>
         </div>
     </div>

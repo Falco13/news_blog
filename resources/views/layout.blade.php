@@ -23,7 +23,13 @@
 </nav>
 
 <div class="container">
-    @yield('content')
+@if(session('success'))
+    <div class="alert alert-success" role="alert">
+        {{ session('success') }}
+    </div>
+@endif
+
+@yield('content')
 </div>
 @include('inc.footer')
 </body>

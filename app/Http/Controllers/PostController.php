@@ -15,16 +15,18 @@ class PostController extends Controller
     {
         Paginator::useBootstrap();
         $search_is = $request->search;
-        if($search_is) {
-            $posts = Post::with('user')->where('title', 'LIKE', "%$search_is%")
-                                       ->orWhere('description', 'LIKE', "%$search_is%")
-                                       ->orWhereHas('user', function ($query) use ($search_is) {
-                                        $query->where('name', 'LIKE', "%$search_is%");})
-                                       ->orderBy('created_at')->paginate(8);
-            return view('home', compact('posts'));
+        if (!empty($search_is)) {
+            $posts = Post::with('user')
+                         ->where('title', 'LIKE', "%$search_is%")
+                         ->orWhere('description', 'LIKE', "%$search_is%")
+                         ->orWhereHas('user', function ($query) use ($search_is) {$query->where('name', 'LIKE', "%$search_is%");})
+                         ->orderBy('created_at')
+                         ->paginate(8);
+        } else {
+            $posts = Post::orderBy('created_at')->with('user')->paginate(8);
         }
-        $posts = Post::orderBy('created_at')->with('user')->paginate(8);
-        return view('home', compact('posts'));
+
+        return view('home', compact('posts', 'search_is'));
     }
 
     /**

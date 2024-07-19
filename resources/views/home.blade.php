@@ -7,7 +7,7 @@ Home Page
 @section('content')
 <br>
 <div class="container-fluid">
-    <form method="GET" action="{{ route('home') }}" class="d-flex">
+    <form method="GET" action="{{ route('search') }}" class="d-flex">
         <input class="form-control me-2" name="search" type="search" value="{{ request()->input('search') }}" placeholder="Search">
         <button class="btn btn-warning" type="submit">Search</button>
     </form>

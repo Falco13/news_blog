@@ -11,8 +11,14 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
+    public function index() {
+        Paginator::useBootstrap();
+        $search_is = false;
+        $posts = Post::orderBy('created_at')->with('user')->paginate(8);
+        return view('home', compact('posts', 'search_is'));
+    }
+
+    public function search(Request $request) {
         Paginator::useBootstrap();
         $search_is = $request->search;
         if ($search_is !== null && trim($search_is) !== '') {
@@ -23,10 +29,8 @@ class PostController extends Controller
                          ->orderBy('created_at')
                          ->paginate(8);
         } else {
-            // $posts = Post::query()->whereRaw('false');
-            $posts = Post::orderBy('created_at')->with('user')->paginate(8);
+            $posts = Post::query()->whereRaw('false');
         }
-
         return view('home', compact('posts', 'search_is'));
     }
 

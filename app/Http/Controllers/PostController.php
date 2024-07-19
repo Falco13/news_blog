@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -14,7 +16,7 @@ class PostController extends Controller
     public function index() {
         Paginator::useBootstrap();
         $search_is = false;
-        $posts = Post::orderBy('created_at')->with('user')->paginate(8);
+        $posts = Post::orderBy('created_at', 'desc')->with('user')->paginate(8);
         return view('home', compact('posts', 'search_is'));
     }
 
@@ -26,7 +28,7 @@ class PostController extends Controller
                          ->where('title', 'LIKE', "%$search_is%")
                          ->orWhere('description', 'LIKE', "%$search_is%")
                          ->orWhereHas('user', function ($query) use ($search_is) {$query->where('name', 'LIKE', "%$search_is%");})
-                         ->orderBy('created_at')
+                         ->orderBy('created_at', 'desc')
                          ->paginate(8);
         } else {
             $posts = Post::query()->whereRaw('false');
@@ -37,17 +39,27 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create() {
         return view('create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        $post = new Post();
+        $post->title = $request->title;
+        $post->short_title = Str::length($request->title)>30 ? Str::substr($request->title, 1, 30).'...' : $request->title;
+        $post->description = $request->description;
+        if($request->file('img')) {
+            $path = Storage::putFile('public', $request->file('img'));
+            $url = Storage::url($path);
+            $post->img = $url;
+        }
+        $post->author_id = rand(1, 10); // for test
+        $post->save();
+        return redirect()->route('home');
+
     }
 
     /**

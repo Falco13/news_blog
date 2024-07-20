@@ -14,7 +14,11 @@ Home Page
                 <h5 class="card-title">{{ $post->short_title }}</h5>
                 <p class="card-text">{{ $post->description }}</p>
                 <div class="alert alert-dark" role="alert">Author: <strong>{{ $post->user->name }}</strong> | Publication date: <i>{{ $post->created_at->diffForHumans() }}</i></div>
-                <a href="{{ route('home') }}" class="btn btn-warning">Back...</a>
+                <div class="card-btn">
+                    <a href="{{ route('home') }}" class="btn btn-success">Back...</a>
+                    <a href="{{ route('edit', ['id'=>$post->id]) }}" class="btn btn-warning">Edit</a>
+                    <a href="{{ route('destroy', ['id'=>$post->id]) }}" class="btn btn-danger">Delete</a>
+                </div>
             </div>
         </div>
     </div>

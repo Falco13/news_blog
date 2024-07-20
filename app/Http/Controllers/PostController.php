@@ -72,17 +72,27 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
+    public function edit(string $id) {
+        $post = Post::find($id);
+        return view('edit', compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, string $id) {
+        $post = Post::find($id);
+        $post->title = $request->title;
+        $post->short_title = Str::length($request->title)>30 ? Str::substr($request->title, 1, 30).'...' : $request->title;
+        $post->description = $request->description;
+        if($request->file('img')) {
+            $path = Storage::putFile('public', $request->file('img'));
+            $url = Storage::url($path);
+            $post->img = $url;
+        }
+        $post->update();
+        $id = $post->id;
+        return redirect()->route('show', compact('id'))->with('success', 'Your post has been successfully updated');
     }
 
     /**

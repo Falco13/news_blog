@@ -17,7 +17,7 @@ Post detail
                 <div class="card-btn">
                     <a href="{{ route('home') }}" class="btn btn-success">Back...</a>
                     <a href="{{ route('edit', ['id'=>$post->id]) }}" class="btn btn-warning">Edit</a>
-                    <form action="{{ route('destroy', ['id'=>$post->id]) }}" method="POST">
+                    <form action="{{ route('destroy', ['id'=>$post->id]) }}" method="POST" onsubmit="if (confirm('You really want to delete this post?')) {return true} else {return false}">
                         @csrf
                         @method('DELETE')
                         <input type="submit" class="btn btn-danger" value="Delete">

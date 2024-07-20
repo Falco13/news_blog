@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-Home Page
+Post detail
 @endsection
 
 @section('content')
@@ -17,7 +17,11 @@ Home Page
                 <div class="card-btn">
                     <a href="{{ route('home') }}" class="btn btn-success">Back...</a>
                     <a href="{{ route('edit', ['id'=>$post->id]) }}" class="btn btn-warning">Edit</a>
-                    <a href="{{ route('destroy', ['id'=>$post->id]) }}" class="btn btn-danger">Delete</a>
+                    <form action="{{ route('destroy', ['id'=>$post->id]) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </form>
                 </div>
             </div>
         </div>

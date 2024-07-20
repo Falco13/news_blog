@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index() {
         Paginator::useBootstrap();
-        $search_is = false;
+        $search_is = null;
         $posts = Post::orderBy('created_at', 'desc')->with('user')->paginate(8);
         return view('home', compact('posts', 'search_is'));
     }

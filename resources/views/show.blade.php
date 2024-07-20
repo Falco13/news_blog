@@ -16,12 +16,16 @@ Post detail
                 <div class="alert alert-dark" role="alert">Author: <strong>{{ $post->user->name }}</strong> | Publication date: <i>{{ $post->created_at->diffForHumans() }}</i></div>
                 <div class="card-btn">
                     <a href="{{ route('home') }}" class="btn btn-success">Back...</a>
+                    @auth
+                    @if(Auth::user()->id == $post->author_id)
                     <a href="{{ route('edit', ['id'=>$post->id]) }}" class="btn btn-warning">Edit</a>
                     <form action="{{ route('destroy', ['id'=>$post->id]) }}" method="POST" onsubmit="if (confirm('You really want to delete this post?')) {return true} else {return false}">
                         @csrf
                         @method('DELETE')
                         <input type="submit" class="btn btn-danger" value="Delete">
                     </form>
+                    @endif
+                    @endauth
                 </div>
             </div>
         </div>

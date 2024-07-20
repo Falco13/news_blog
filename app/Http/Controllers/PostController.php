@@ -6,6 +6,7 @@ use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -57,7 +58,7 @@ class PostController extends Controller
             $url = Storage::url($path);
             $post->img = $url;
         }
-        $post->author_id = rand(1, 10); // for test
+        $post->author_id = Auth::user()->id;
         $post->save();
         return redirect()->route('home')->with('success', 'Your post has been successfully created');
     }
@@ -75,6 +76,9 @@ class PostController extends Controller
      */
     public function edit(string $id) {
         $post = Post::find($id);
+        if($post->author_id !== Auth::user()->id) {
+            return redirect()->route('home')->withErrors('You cannot edit this post');
+        }
         return view('edit', compact('post'));
     }
 
@@ -83,6 +87,9 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, string $id) {
         $post = Post::find($id);
+        if($post->author_id !== Auth::user()->id) {
+            return redirect()->route('home')->withErrors('You cannot edit this post');
+        }
         $post->title = $request->title;
         $post->short_title = Str::length($request->title)>30 ? Str::substr($request->title, 1, 30).'...' : $request->title;
         $post->description = $request->description;
@@ -101,6 +108,9 @@ class PostController extends Controller
      */
     public function destroy(string $id) {
         $post = Post::find($id);
+        if($post->author_id !== Auth::user()->id) {
+            return redirect()->route('home')->withErrors('You cannot delete this post');
+        }
         $post->delete();
         return redirect()->route('home')->with('success', 'Your post has been successfully deleted');
     }

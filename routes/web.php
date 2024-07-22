@@ -16,3 +16,5 @@ Route::delete('/{id}', [PostController::class, 'destroy'])->name('destroy');
 Auth::routes();
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+
+Route::fallback(function () { return view('errors.404');});

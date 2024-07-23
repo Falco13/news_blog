@@ -15,11 +15,9 @@
                     <div class="d-grid gap-2">
                         <a href="{{ route('home') }}" class="btn btn-danger">Go home...</a>
                     </div>
-                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 @endsection

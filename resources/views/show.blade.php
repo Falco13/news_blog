@@ -31,6 +31,5 @@ Post detail
         </div>
     </div>
 </div>
-</div>
 
 @endsection
